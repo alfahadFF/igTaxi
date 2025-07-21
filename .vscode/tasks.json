@@ -1,0 +1,27 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start Expo Dev",
+			"type": "shell",
+			"command": "npx expo start --clear",
+			"group": "build",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Build Android APK",
+			"type": "shell",
+			"command": "npx expo build:android",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "Run Android",
+			"type": "shell",
+			"command": "npx expo run:android",
+			"group": "build",
+			"problemMatcher": []
+		}
+	]
+}

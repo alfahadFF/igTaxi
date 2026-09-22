@@ -1,22 +1,29 @@
 {
   "expo": {
-    "name": "IGTaxi",
+    "name": "IGTaxi - خدمة نقل ذكية",
     "slug": "igtaxi-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "igtaxi",
     "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#667eea"
+    },
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#667eea",
+        "monochromeImage": "./assets/images/icon.png"
       },
-      "package": "com.igtaxi.app",
+      "icon": "./assets/images/icon.png",
+      "package": "com.igtaxi.smarttransport",
       "versionCode": 1,
       "compileSdkVersion": 34,
       "targetSdkVersion": 34,
@@ -26,7 +33,11 @@
         "ACCESS_FINE_LOCATION",
         "CAMERA",
         "RECORD_AUDIO",
-        "INTERNET"
+        "INTERNET",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
       ],
       "config": {
         "googleMaps": {
@@ -53,6 +64,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "e90ef314-c139-4567-b750-eed793a9df50"
+      }
     }
   }
 }

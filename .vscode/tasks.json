@@ -12,7 +12,7 @@
 		{
 			"label": "Build Android APK",
 			"type": "shell",
-			"command": "npx expo build:android",
+			"command": "npx eas build --platform android --profile preview",
 			"group": "build",
 			"problemMatcher": []
 		},
@@ -20,6 +20,13 @@
 			"label": "Run Android",
 			"type": "shell",
 			"command": "npx expo run:android",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "Build Android APK - New",
+			"type": "shell",
+			"command": "npx eas build --platform android --profile production --clear-cache",
 			"group": "build",
 			"problemMatcher": []
 		}

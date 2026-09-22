@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView, Switch, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Switch, TouchableOpacity, ScrollView, Alert, Linking } from 'react-native';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -17,7 +17,11 @@ import {
   ChevronRight,
   Settings as SettingsIcon,
   TestTube,
-  AlertTriangle
+  AlertTriangle,
+  MessageCircle,
+  Lock,
+  Eye,
+  CreditCard
 } from 'lucide-react-native';
 
 export default function SettingsScreen() {
@@ -33,6 +37,78 @@ export default function SettingsScreen() {
   };
   
   const currentLanguage = i18n.language === 'en' ? 'English' : 'العربية';
+
+  // فتح الواتساب للدعم
+  const openWhatsAppSupport = () => {
+    const phoneNumber = '004915563393082';
+    const message = encodeURIComponent('مرحباً، أحتاج مساعدة في تطبيق IGTaxi');
+    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}&text=${message}`;
+    const webUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    
+    Linking.canOpenURL(whatsappUrl)
+      .then((supported) => {
+        if (supported) {
+          return Linking.openURL(whatsappUrl);
+        } else {
+          return Linking.openURL(webUrl);
+        }
+      })
+      .catch(() => {
+        Alert.alert('خطأ', 'لا يمكن فتح الواتساب. يرجى المحاولة لاحقاً.');
+      });
+  };
+
+  // فتح الواتساب لشحن الرصيد
+  const openWhatsAppRecharge = () => {
+    const phoneNumber = '004915563393082';
+    const message = encodeURIComponent('مرحباً، أريد شحن رصيد في تطبيق IGTaxi');
+    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}&text=${message}`;
+    const webUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    
+    Linking.canOpenURL(whatsappUrl)
+      .then((supported) => {
+        if (supported) {
+          return Linking.openURL(whatsappUrl);
+        } else {
+          return Linking.openURL(webUrl);
+        }
+      })
+      .catch(() => {
+        Alert.alert('خطأ', 'لا يمكن فتح الواتساب. يرجى المحاولة لاحقاً.');
+      });
+  };
+
+  // إعدادات الخصوصية
+  const openPrivacySettings = () => {
+    Alert.alert(
+      'الخصوصية والأمان',
+      'اختر الإعداد الذي تريد تعديله:',
+      [
+        {
+          text: 'إعدادات الخصوصية',
+          onPress: () => Alert.alert(
+            'إعدادات الخصوصية', 
+            '• مشاركة الموقع: مفعلة\n• مشاركة البيانات: محدودة\n• رؤية الملف الشخصي: الأصدقاء فقط\n• حفظ الرحلات: مفعل'
+          )
+        },
+        {
+          text: 'أمان الحساب',
+          onPress: () => Alert.alert(
+            'أمان الحساب', 
+            '• المصادقة الثنائية: مفعلة\n• تشفير البيانات: مفعل\n• تسجيل الدخول الآمن: مفعل\n• مراقبة النشاط: مفعلة'
+          )
+        },
+        {
+          text: 'إدارة البيانات',
+          onPress: () => Alert.alert(
+            'إدارة البيانات', 
+            'يمكنك:\n• تصدير بياناتك\n• حذف بيانات معينة\n• إيقاف جمع البيانات مؤقتاً\n• طلب حذف الحساب'
+          )
+        },
+        { text: 'إلغاء', style: 'cancel' }
+      ]
+    );
+  };
 
   const getThemeText = () => {
     switch (themeMode) {
@@ -135,6 +211,26 @@ export default function SettingsScreen() {
       fontSize: 16,
       fontWeight: '600',
       marginLeft: 8,
+    },
+    whatsappButton: {
+      backgroundColor: '#25d366',
+      borderRadius: 12,
+      padding: 12,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 8,
+    },
+    whatsappText: {
+      color: '#fff',
+      fontSize: 14,
+      fontWeight: '600',
+      marginLeft: 8,
+    },
+    supportPhone: {
+      fontSize: 12,
+      color: '#25d366',
+      fontWeight: '600',
     }
   });
 
@@ -252,18 +348,75 @@ export default function SettingsScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>الحساب والأمان</Text>
           
-          <TouchableOpacity style={styles.item}>
+          <TouchableOpacity style={styles.item} onPress={openPrivacySettings}>
             <View style={styles.itemLeft}>
-              <Shield size={20} color={theme.colors.text} style={styles.itemIcon} />
+              <Shield size={20} color="#22c55e" style={styles.itemIcon} />
               <Text style={styles.itemText}>الخصوصية والأمان</Text>
             </View>
+            <ChevronRight size={16} color={theme.colors.textSecondary} />
           </TouchableOpacity>
           
-          <TouchableOpacity style={[styles.item, styles.lastItem]}>
+          <TouchableOpacity 
+            style={styles.item} 
+            onPress={() => Alert.alert(
+              'حماية البيانات', 
+              'جميع بياناتك محمية بتشفير عالي المستوى ولا تتم مشاركتها مع جهات خارجية إلا بموافقتك.'
+            )}
+          >
             <View style={styles.itemLeft}>
-              <HelpCircle size={20} color={theme.colors.text} style={styles.itemIcon} />
-              <Text style={styles.itemText}>المساعدة والدعم</Text>
+              <Lock size={20} color="#3b82f6" style={styles.itemIcon} />
+              <Text style={styles.itemText}>حماية البيانات</Text>
             </View>
+            <ChevronRight size={16} color={theme.colors.textSecondary} />
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={[styles.item, styles.lastItem]} 
+            onPress={() => Alert.alert(
+              'سياسة الخصوصية', 
+              'يمكنك الاطلاع على سياسة الخصوصية الكاملة من خلال قائمة المساعدة أو موقعنا الإلكتروني.'
+            )}
+          >
+            <View style={styles.itemLeft}>
+              <Eye size={20} color="#8b5cf6" style={styles.itemIcon} />
+              <Text style={styles.itemText}>سياسة الخصوصية</Text>
+            </View>
+            <ChevronRight size={16} color={theme.colors.textSecondary} />
+          </TouchableOpacity>
+        </View>
+
+        {/* المساعدة والدعم */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>المساعدة والدعم</Text>
+          
+          <TouchableOpacity style={styles.item} onPress={openWhatsAppSupport}>
+            <View style={styles.itemLeft}>
+              <MessageCircle size={20} color="#25d366" style={styles.itemIcon} />
+              <Text style={styles.itemText}>دعم فوري - واتساب</Text>
+            </View>
+            <Text style={styles.itemValue}>004915563393082</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.item} onPress={openWhatsAppRecharge}>
+            <View style={styles.itemLeft}>
+              <CreditCard size={20} color="#f59e0b" style={styles.itemIcon} />
+              <Text style={styles.itemText}>شحن الرصيد - واتساب</Text>
+            </View>
+            <Text style={styles.itemValue}>شحن سريع</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={[styles.item, styles.lastItem]}
+            onPress={() => Alert.alert(
+              'مركز المساعدة', 
+              'يمكنك:\n• التواصل عبر الواتساب للدعم الفوري\n• شحن الرصيد عبر الواتساب\n• الإبلاغ عن مشاكل تقنية\n• طلب استرداد الأموال\n• الحصول على مساعدة في الاستخدام'
+            )}
+          >
+            <View style={styles.itemLeft}>
+              <HelpCircle size={20} color="#6366f1" style={styles.itemIcon} />
+              <Text style={styles.itemText}>مركز المساعدة</Text>
+            </View>
+            <ChevronRight size={16} color={theme.colors.textSecondary} />
           </TouchableOpacity>
         </View>
 

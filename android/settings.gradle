@@ -21,7 +21,7 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
   }
 }
 
-rootProject.name = 'IGTaxi'
+rootProject.name = 'IGTaxi - خدمة نقل ذكية'
 
 dependencyResolutionManagement {
   versionCatalogs {

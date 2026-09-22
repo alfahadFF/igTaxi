@@ -70,6 +70,7 @@ export default function RootLayout() {
             <I18nextProvider i18n={i18n}>
               <GestureHandlerRootView style={{ flex: 1 }}>
                 <Stack screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="welcome" options={{ headerShown: false }} />
                   <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                   <Stack.Screen name="auth/login" options={{ presentation: 'modal' }} />
                   <Stack.Screen name="auth/register" options={{ presentation: 'modal' }} />
